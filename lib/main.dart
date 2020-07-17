@@ -80,10 +80,11 @@ class _HomePageState extends State<HomePage> {
                 PageView(
                   children: [
                     Align(
+                      alignment: Alignment.center,
                       child: Stack(
                         children: <Widget>[
                           Opacity(
-                            opacity: 0.5- (_notifier.value/2),
+                            opacity: 0.5 - (_notifier.value / 2),
                             child: Container(
                               height: MediaQuery.of(context).size.height,
                               color: Color(0xffe4f9ff),
@@ -102,17 +103,22 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Positioned(
                   bottom: MediaQuery.of(context).size.height * 0.24,
-                  right:  MediaQuery.of(context).size.width * 0.015,
+                  right: MediaQuery.of(context).size.width * 0.015,
                   child: IgnorePointer(
                     ignoring: true,
                     child: AnimatedBuilder(
                       builder: (context, _) {
                         return Container(
-                          width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width*_notifier.value/1.5,
+                          width: MediaQuery.of(context).size.width -
+                              MediaQuery.of(context).size.width *
+                                  _notifier.value /
+                                  1.5,
                           child: Opacity(
-                            opacity: 1-_notifier.value,
+                            opacity: 1 - _notifier.value,
                             child: Padding(
-                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.03),
+                              padding: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.03),
                               child: Image.asset('assets/images/ob_phone.png'),
                             ),
                           ),
@@ -122,20 +128,44 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
+
+                Positioned(
+                  bottom: 0,
+                  child: IgnorePointer(
+                    child: Container(
+                      height:
+                      MediaQuery.of(context).size.height * 0.225,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: Center(
+                        child: Text(
+                          'Discover routes and buses near you for your daily office commute',
+                          style: TextStyle(fontWeight: FontWeight.w400,fontSize: 11.5),
+                        textAlign: TextAlign.center,),
+                      ),
+                    ),
+                  ),
+                ),
+                
+                //Phone On Second PageView
                 Positioned(
                   bottom: MediaQuery.of(context).size.height * 0.24,
-                  right:  MediaQuery.of(context).size.width * 0.015,
+                  right: MediaQuery.of(context).size.width * 0.015,
                   child: IgnorePointer(
                     ignoring: true,
                     child: AnimatedBuilder(
                       builder: (context, _) {
                         return Container(
-                          width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width*1/1.5,
+                          width: MediaQuery.of(context).size.width -
+                              MediaQuery.of(context).size.width * 1 / 1.5,
                           child: Opacity(
                             opacity: _notifier.value,
                             child: Padding(
-                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.03),
-                              child: Image.asset('assets/images/ob_phone_small.png'),
+                              padding: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.03),
+                              child: Image.asset(
+                                  'assets/images/ob_phone_small.png'),
                             ),
                           ),
                         );
