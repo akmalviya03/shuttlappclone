@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'dart:math';
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -38,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       _previousPage = _pageController.page.toInt();
     }
     _notifier?.value = _pageController.page;
-    setState(() {});
+
   }
 
   @override
@@ -78,17 +76,23 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 PageView(
+                  physics: ClampingScrollPhysics(),
                   children: [
                     Align(
                       alignment: Alignment.center,
                       child: Stack(
                         children: <Widget>[
-                          Opacity(
-                            opacity: 0.5 - (_notifier.value / 2),
-                            child: Container(
-                              height: MediaQuery.of(context).size.height,
-                              color: Color(0xffe4f9ff),
-                            ),
+                          AnimatedBuilder(
+                            animation: _notifier,
+                            builder: (context, _) {
+                              return Opacity(
+                                opacity: 0.5 - (_notifier.value / 2),
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height,
+                                  color: Color(0xffe4f9ff),
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -101,6 +105,8 @@ class _HomePageState extends State<HomePage> {
                   ],
                   controller: _pageController,
                 ),
+
+                //Phone On First PageView
                 Positioned(
                   bottom: MediaQuery.of(context).size.height * 0.24,
                   right: MediaQuery.of(context).size.width * 0.015,
@@ -128,25 +134,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-
-                Positioned(
-                  bottom: 0,
-                  child: IgnorePointer(
-                    child: Container(
-                      height:
-                      MediaQuery.of(context).size.height * 0.225,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.white,
-                      child: Center(
-                        child: Text(
-                          'Discover routes and buses near you for your daily office commute',
-                          style: TextStyle(fontWeight: FontWeight.w400,fontSize: 11.5),
-                        textAlign: TextAlign.center,),
-                      ),
-                    ),
-                  ),
-                ),
-                
                 //Phone On Second PageView
                 Positioned(
                   bottom: MediaQuery.of(context).size.height * 0.24,
@@ -173,7 +160,49 @@ class _HomePageState extends State<HomePage> {
                       animation: _notifier,
                     ),
                   ),
-                )
+                ),
+
+                AnimatedBuilder(
+                  builder: (context, _) {
+                    return Positioned(
+                      bottom: MediaQuery.of(context).size.height * 0.24,
+                      left: (-MediaQuery.of(context).size.width * 0.33 )+ _notifier.value*MediaQuery.of(context).size.width*0.33,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width -
+                            MediaQuery.of(context).size.width * 1 / 1.5,
+                        child: Opacity(
+                          opacity: 1,
+                          child: IgnorePointer(
+                            ignoring: true,
+                            child: Image.asset(
+                                'assets/images/ob_shuttl_cropped.png'),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  animation: _notifier,
+                ),
+
+                //Bottom Sheet
+                Positioned(
+                  bottom: 0,
+                  child: IgnorePointer(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.225,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: Center(
+                        child: Text(
+                          'Discover routes and buses near you for your daily office commute',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400, fontSize: 11.5),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ]),
             ),
             AnimatedBuilder(
