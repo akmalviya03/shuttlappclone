@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   ValueNotifier<double> _notifier;
   PageController _pageController;
   ValueNotifier<double> firstToSecond;
+
   @override
   void dispose() {
     _notifier?.dispose();
@@ -46,7 +47,6 @@ class _HomePageState extends State<HomePage> {
     _pageController = PageController(
       initialPage: 0,
     )..addListener(_onScroll);
-
     super.initState();
   }
 
@@ -74,38 +74,24 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+              AnimatedBuilder(
+                animation: _notifier,
+                builder: (context, _) {
+                  return Opacity(
+                    opacity: 0.7 - (_notifier.value / 1.45),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      color: Colors.white,
+                    ),
+                  );
+                },
+              ),
               PageView(
                 physics: ClampingScrollPhysics(),
                 children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Stack(
-                      children: <Widget>[
-                        AnimatedBuilder(
-                          animation: _notifier,
-                          builder: (context, _) {
-                            return Opacity(
-                              opacity: 0.5 - (_notifier.value / 2),
-                              child: Container(
-                                height: MediaQuery.of(context).size.height,
-                                color: Color(0xffe4f9ff),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  Align(
-                    child: Container(
-                      color: Colors.transparent,
-                    ),
-                  ),
-                  Align(
-                    child: Container(
-                      color: Colors.transparent,
-                    ),
-                  ),
+                  Container(),
+                  Container(),
+                  Container(),
                 ],
                 controller: _pageController,
               ),
@@ -127,8 +113,7 @@ class _HomePageState extends State<HomePage> {
                           opacity: 1 - _notifier.value,
                           child: Padding(
                             padding: EdgeInsets.only(
-                                left:
-                                    MediaQuery.of(context).size.width * 0.03),
+                                left: MediaQuery.of(context).size.width * 0.03),
                             child: Image.asset('assets/images/ob_phone.png'),
                           ),
                         ),
@@ -139,34 +124,40 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               //Phone On Second PageView
-              AnimatedBuilder(builder: (context, _) {
-                return Positioned(
-                  bottom: MediaQuery.of(context).size.height * 0.28 - MediaQuery.of(context).size.height * 0.28*firstToSecond.value,
-                  right: MediaQuery.of(context).size.width * 0.035,
-                  child: IgnorePointer(
-                    ignoring: true,
-                    child: AnimatedBuilder(
-                      builder: (context, _) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width -
-                              MediaQuery.of(context).size.width * 1 / 1.3,
-                          child: Opacity(
-                            opacity: _notifier.value,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width *
-                                      0.03),
-                              child: Image.asset(
-                                  'assets/images/ob_phone_small.png'),
+              AnimatedBuilder(
+                builder: (context, _) {
+                  return Positioned(
+                    bottom: MediaQuery.of(context).size.height * 0.28 -
+                        MediaQuery.of(context).size.height *
+                            0.28 *
+                            firstToSecond.value,
+                    right: MediaQuery.of(context).size.width * 0.035,
+                    child: IgnorePointer(
+                      ignoring: true,
+                      child: AnimatedBuilder(
+                        builder: (context, _) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width -
+                                MediaQuery.of(context).size.width * 1 / 1.3,
+                            child: Opacity(
+                              opacity: _notifier.value,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width *
+                                        0.03),
+                                child: Image.asset(
+                                    'assets/images/ob_phone_small.png'),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      animation: _notifier,
+                          );
+                        },
+                        animation: _notifier,
+                      ),
                     ),
-                  ),
-                );
-              }, animation: firstToSecond,),
+                  );
+                },
+                animation: firstToSecond,
+              ),
               //Bus on Second PageView
               AnimatedBuilder(
                 builder: (context, _) {
@@ -179,15 +170,15 @@ class _HomePageState extends State<HomePage> {
                     child: AnimatedBuilder(
                       builder: (context, _) {
                         return Opacity(
-                          opacity: 1-firstToSecond.value,
+                          opacity: 1 - firstToSecond.value,
                           child: IgnorePointer(
                             ignoring: true,
                             child: Align(
                               alignment: Alignment.bottomLeft,
                               child: Image.asset(
-                                  'assets/images/ob_shuttl_cropped.png',
-                                  width: MediaQuery.of(context).size.width *
-                                      (firstToSecond.value + 0.3),
+                                'assets/images/ob_shuttl_cropped.png',
+                                width: MediaQuery.of(context).size.width *
+                                    (firstToSecond.value + 0.3),
                                 fit: BoxFit.fill,
                               ),
                             ),
@@ -238,12 +229,186 @@ class _HomePageState extends State<HomePage> {
                     height: MediaQuery.of(context).size.height * 0.28,
                     width: MediaQuery.of(context).size.width,
                     color: Colors.white,
-                    child: Center(
-                      child: Text(
-                        'Discover routes and buses near you for your daily office commute',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 11.5),
-                        textAlign: TextAlign.center,
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.05),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Stack(
+                            children: [
+                              AnimatedBuilder(
+                                builder: (context, _) {
+                                  return Stack(children: [
+                                    Opacity(
+                                      opacity: 1 - _notifier.value,
+                                      child: Container(
+                                        color: Colors.white,
+                                        width: double.maxFinite,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.1,
+                                        child: Text(
+                                          'Discover routes and buses near you for your daily office commute',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                    Opacity(
+                                      opacity: _notifier.value,
+                                      child: Container(
+                                        color: Colors.white,
+                                        width: double.maxFinite,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.1,
+                                        child: Text(
+                                          'Reserve a seat and track your shuttl in real time for seamless boarding',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ]);
+                                },
+                                animation: _notifier,
+                              ),
+                              AnimatedBuilder(
+                                builder: (context, _) {
+                                  return Opacity(
+                                    opacity: firstToSecond.value,
+                                    child: Container(
+                                      color: Colors.white,
+                                      width: double.maxFinite,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.1,
+                                      child: Text(
+                                        'Ride comfortably to your destination',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                animation: firstToSecond,
+                              ),
+                            ],
+                          ),
+                          Positioned(
+                            bottom: 100,
+                            child: Stack(children: [
+                              AnimatedBuilder(
+                                builder: (context, _) {
+                                  return Opacity(
+                                    opacity: firstToSecond.value,
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.05,
+                                      alignment: Alignment.center,
+                                      width: double.maxFinite,
+                                      color: Colors.cyan,
+                                      child: Text(
+                                        'GET STARTED',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                animation: firstToSecond,
+                              ),
+                              Opacity(
+                                opacity: 1 - firstToSecond.value,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.3,
+                                      right: MediaQuery.of(context).size.width *
+                                          0.3),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      AnimatedBuilder(
+                                        builder: (context, _) {
+                                          return ClipOval(
+                                            child: Stack(children: [
+                                              Opacity(
+                                                opacity: 0.3,
+                                                child: Container(
+                                                  height: 15,
+                                                  width: 15,
+                                                  color: Colors.cyan,
+                                                ),
+                                              ),
+                                              Opacity(
+                                                opacity: 1 - _notifier.value,
+                                                child: Container(
+                                                  height: 15,
+                                                  width: 15,
+                                                  color: Colors.cyan,
+                                                ),
+                                              ),
+                                            ]),
+                                          );
+                                        },
+                                        animation: _notifier,
+                                      ),
+                                      AnimatedBuilder(
+                                        builder: (context, _) {
+                                          return ClipOval(
+                                            child: Stack(children: [
+                                              Opacity(
+                                                opacity: 0.3,
+                                                child: Container(
+                                                  height: 15,
+                                                  width: 15,
+                                                  color: Colors.cyan,
+                                                ),
+                                              ),
+                                              Opacity(
+                                                opacity: _notifier.value,
+                                                child: Container(
+                                                  height: 15,
+                                                  width: 15,
+                                                  color: Colors.cyan,
+                                                ),
+                                              ),
+                                            ]),
+                                          );
+                                        },
+                                        animation: _notifier,
+                                      ),
+
+                                      //Last Dot Indicator means first from the right
+
+                                      Opacity(
+                                        opacity: 0.2,
+                                        child: ClipOval(
+                                          child: Container(
+                                            height: 15,
+                                            width: 15,
+                                            color: Colors.cyan,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ]),
+                          )
+                        ],
                       ),
                     ),
                   ),
