@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
 
               //Phone On First PageView
               Positioned(
-                bottom: MediaQuery.of(context).size.height * 0.29,
+                bottom: MediaQuery.of(context).size.height * 0.27,
                 right: MediaQuery.of(context).size.width * 0.015,
                 child: IgnorePointer(
                   ignoring: true,
@@ -127,9 +127,9 @@ class _HomePageState extends State<HomePage> {
               AnimatedBuilder(
                 builder: (context, _) {
                   return Positioned(
-                    bottom: MediaQuery.of(context).size.height * 0.28 -
+                    bottom: MediaQuery.of(context).size.height * 0.26 -
                         MediaQuery.of(context).size.height *
-                            0.28 *
+                            0.26 *
                             firstToSecond.value,
                     right: MediaQuery.of(context).size.width * 0.035,
                     child: IgnorePointer(
@@ -162,7 +162,7 @@ class _HomePageState extends State<HomePage> {
               AnimatedBuilder(
                 builder: (context, _) {
                   return Positioned(
-                    bottom: MediaQuery.of(context).size.height * 0.29,
+                    bottom: MediaQuery.of(context).size.height * 0.27,
                     left: (-MediaQuery.of(context).size.width * 0.33) +
                         _notifier.value *
                             MediaQuery.of(context).size.width *
@@ -196,7 +196,7 @@ class _HomePageState extends State<HomePage> {
               AnimatedBuilder(
                 builder: (context, _) {
                   return Positioned(
-                    bottom: MediaQuery.of(context).size.height * 0.28,
+                    bottom: MediaQuery.of(context).size.height * 0.26,
                     child: AnimatedBuilder(
                       builder: (context, _) {
                         return Opacity(
@@ -224,24 +224,65 @@ class _HomePageState extends State<HomePage> {
               //Bottom Sheet
               Positioned(
                 bottom: 0,
-                child: IgnorePointer(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.28,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.white,
-                    child: Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width * 0.05),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Stack(
-                            children: [
-                              AnimatedBuilder(
-                                builder: (context, _) {
-                                  return Stack(children: [
-                                    Opacity(
-                                      opacity: 1 - _notifier.value,
+                child: SafeArea(
+                  child: IgnorePointer(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.26,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: Padding(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width * 0.05),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Stack(
+                              children: [
+                                AnimatedBuilder(
+                                  builder: (context, _) {
+                                    return Stack(children: [
+                                      Opacity(
+                                        opacity: 1 - _notifier.value,
+                                        child: Container(
+                                          color: Colors.white,
+                                          width: double.maxFinite,
+                                          height:
+                                              MediaQuery.of(context).size.height *
+                                                  0.1,
+                                          child: Text(
+                                            'Discover routes and buses near you for your daily office commute',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                      Opacity(
+                                        opacity: _notifier.value,
+                                        child: Container(
+                                          color: Colors.white,
+                                          width: double.maxFinite,
+                                          height:
+                                              MediaQuery.of(context).size.height *
+                                                  0.1,
+                                          child: Text(
+                                            'Reserve a seat and track your shuttl in real time for seamless boarding',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                    ]);
+                                  },
+                                  animation: _notifier,
+                                ),
+                                AnimatedBuilder(
+                                  builder: (context, _) {
+                                    return Opacity(
+                                      opacity: firstToSecond.value,
                                       child: Container(
                                         color: Colors.white,
                                         width: double.maxFinite,
@@ -249,62 +290,20 @@ class _HomePageState extends State<HomePage> {
                                             MediaQuery.of(context).size.height *
                                                 0.1,
                                         child: Text(
-                                          'Discover routes and buses near you for your daily office commute',
+                                          'Ride comfortably to your destination',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w400,
-                                              fontSize: 12),
+                                              fontSize: 16),
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
-                                    ),
-                                    Opacity(
-                                      opacity: _notifier.value,
-                                      child: Container(
-                                        color: Colors.white,
-                                        width: double.maxFinite,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.1,
-                                        child: Text(
-                                          'Reserve a seat and track your shuttl in real time for seamless boarding',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 12),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                  ]);
-                                },
-                                animation: _notifier,
-                              ),
-                              AnimatedBuilder(
-                                builder: (context, _) {
-                                  return Opacity(
-                                    opacity: firstToSecond.value,
-                                    child: Container(
-                                      color: Colors.white,
-                                      width: double.maxFinite,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.1,
-                                      child: Text(
-                                        'Ride comfortably to your destination',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                animation: firstToSecond,
-                              ),
-                            ],
-                          ),
-                          Positioned(
-                            bottom: 100,
-                            child: Stack(children: [
+                                    );
+                                  },
+                                  animation: firstToSecond,
+                                ),
+                              ],
+                            ),
+                            Stack(children: [
                               AnimatedBuilder(
                                 builder: (context, _) {
                                   return Opacity(
@@ -406,9 +405,9 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ),
-                            ]),
-                          )
-                        ],
+                            ])
+                          ],
+                        ),
                       ),
                     ),
                   ),
