@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 import 'TextWrapContainer.dart';
+import 'constants.dart';
 
-class BottomTextLast2Screens extends StatelessWidget {
-  const BottomTextLast2Screens({
+class BottomText extends StatelessWidget {
+  const BottomText({
     @required this.firstToSecond,
     @required this.bottomText,
   });
-  final ValueNotifier<double> firstToSecond;
+  final double firstToSecond;
   final String bottomText;
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: firstToSecond.value,
-      child: TextWrapContainer(bottomText: bottomText),
+      opacity: firstToSecond,
+      child: Container(
+        color: Colors.white,
+        width: double.maxFinite,
+        height: MediaQuery.of(context).size.height * 0.1,
+        child: Text(
+          bottomText,
+          style: ktextWeight400,
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 }

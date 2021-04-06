@@ -5,12 +5,14 @@ class CustomOpacityContainer extends StatelessWidget {
   final double opacityValue;
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: opacityValue,
-      child: Container(
-        height: 15,
-        width: 15,
-        color: Colors.cyan,
+    return ClipOval(
+      child: Opacity(
+        opacity: opacityValue,
+        child: Container(
+          height: 15,
+          width: 15,
+          color: Colors.cyan,
+        ),
       ),
     );
   }

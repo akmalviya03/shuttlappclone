@@ -10,15 +10,13 @@ class IndicatorStack extends StatelessWidget {
   final double secondContainerOpacity;
   @override
   Widget build(BuildContext context) {
-    return ClipOval(
-      child: Stack(children: [
-        CustomOpacityContainer(
-          opacityValue: firstContainerOpacity,
-        ),
-        CustomOpacityContainer(
-          opacityValue: secondContainerOpacity,
-        ),
-      ]),
-    );
+    return Stack(children: [
+      CustomOpacityContainer(
+        opacityValue: firstContainerOpacity,
+      ),
+      CustomOpacityContainer(
+        opacityValue: secondContainerOpacity,
+      ),
+    ]);
   }
 }
