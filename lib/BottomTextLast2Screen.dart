@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'TextWrapContainer.dart';
 import 'constants.dart';
 
 class BottomText extends StatelessWidget {

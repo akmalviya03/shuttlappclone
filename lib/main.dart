@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'BottomTextLast2Screen.dart';
 import 'IndicatorStack.dart';
 import 'constants.dart';
@@ -11,10 +10,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PageView Scrolling',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: HomePage(),
     );
   }
@@ -31,22 +26,6 @@ class _HomePageState extends State<HomePage> {
   ValueNotifier<double> firstToSecond;
 
   @override
-  void dispose() {
-    _pageController.dispose();
-    _notifier?.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_pageController.page > 1.0) {
-      firstToSecond?.value = (_pageController.page - 1);
-      print(firstToSecond.value);
-    } else {
-      _notifier?.value = _pageController.page;
-    }
-  }
-
-  @override
   void initState() {
     _notifier = ValueNotifier<double>(0);
     firstToSecond = ValueNotifier<double>(0);
@@ -54,6 +33,24 @@ class _HomePageState extends State<HomePage> {
       initialPage: 0,
     )..addListener(_onScroll);
     super.initState();
+  }
+
+  void _onScroll() {
+    if (_pageController.page > 1.0) {
+      firstToSecond?.value = (_pageController.page - 1);
+      print("First ${firstToSecond.value}");
+    } else {
+      _notifier?.value = _pageController.page;
+      print("Second ${firstToSecond.value}");
+    }
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _notifier?.dispose();
+    firstToSecond?.dispose();
+    super.dispose();
   }
 
   @override
@@ -114,12 +111,15 @@ class _HomePageState extends State<HomePage> {
               child: IgnorePointer(
                 ignoring: true,
                 child: AnimatedBuilder(
+                  animation: _notifier,
                   builder: (context, _) {
+                    //Changing container Width
                     return Container(
                       width: MediaQuery.of(context).size.width -
                           MediaQuery.of(context).size.width *
                               _notifier.value /
                               1.5,
+                      //Changing opacity
                       child: Opacity(
                         opacity: 1 - _notifier.value,
                         child: Padding(
@@ -130,14 +130,16 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   },
-                  animation: _notifier,
                 ),
               ),
             ),
 
             //Phone On Second PageView (PageController = 1)
             AnimatedBuilder(
+              //This AnimatedBuilder Will be called when User coming to second page view from third or going to third.
+              animation: firstToSecond,
               builder: (context, _) {
+                //Moving Down
                 return Positioned(
                   bottom: MediaQuery.of(context).size.height * 0.26 -
                       MediaQuery.of(context).size.height *
@@ -146,11 +148,14 @@ class _HomePageState extends State<HomePage> {
                   right: MediaQuery.of(context).size.width * 0.035,
                   child: IgnorePointer(
                     ignoring: true,
+                    //This AnimatedBuilder Will be called when User coming to second page view from first or going to first.
                     child: AnimatedBuilder(
+                      animation: _notifier,
                       builder: (context, _) {
                         return Container(
                           width: MediaQuery.of(context).size.width -
                               MediaQuery.of(context).size.width * 1 / 1.3,
+                          //Changing Opacity.
                           child: Opacity(
                             opacity: _notifier.value,
                             child: Padding(
@@ -163,27 +168,29 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       },
-                      animation: _notifier,
                     ),
                   ),
                 );
               },
-              animation: firstToSecond,
             ),
 
             //Bus on Second PageView (PageController = 1)
             AnimatedBuilder(
+              //This AnimatedBuilder Will be called when User coming to second page view from first or going to first.
               animation: _notifier,
               builder: (context, _) {
                 return Positioned(
+                  //Moving To the Right
                   bottom: MediaQuery.of(context).size.height * 0.27,
                   left: (-MediaQuery.of(context).size.width * 0.33) +
                       _notifier.value *
                           MediaQuery.of(context).size.width *
                           0.33,
                   child: AnimatedBuilder(
+                    //This AnimatedBuilder Will be called when User coming to second page view from third or going to third.
                     animation: firstToSecond,
                     builder: (context, _) {
+                      //Changing Opacity
                       return Opacity(
                         opacity: 1 - firstToSecond.value,
                         child: IgnorePointer(
@@ -192,6 +199,7 @@ class _HomePageState extends State<HomePage> {
                             alignment: Alignment.bottomLeft,
                             child: Image.asset(
                               'assets/images/ob_shuttl_cropped.png',
+                              //Changing Width
                               width: MediaQuery.of(context).size.width *
                                   (firstToSecond.value + 0.3),
                               fit: BoxFit.fill,
@@ -206,12 +214,12 @@ class _HomePageState extends State<HomePage> {
             ),
 
             //Bus on Third PageView (PageController = 2)
-            AnimatedBuilder(
-              builder: (context, _) {
-                return Positioned(
+            Positioned(
                   bottom: MediaQuery.of(context).size.height * 0.26,
                   child: AnimatedBuilder(
+                    animation: firstToSecond,
                     builder: (context, _) {
+                      //Changing Opacity
                       return Opacity(
                         opacity: firstToSecond.value,
                         child: IgnorePointer(
@@ -227,12 +235,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     },
-                    animation: firstToSecond,
                   ),
-                );
-              },
-              animation: _notifier,
-            ),
+                ),
 
             //Bottom Sheet
             Positioned(
